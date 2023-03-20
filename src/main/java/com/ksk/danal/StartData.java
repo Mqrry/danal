@@ -1,11 +1,12 @@
-package com.ksk;
+package com.ksk.danal;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 public class StartData {
-	@SerializedName("serverinfo")
+	@JsonSetter("serverinfo")
 	private String serverInfo;
-	@SerializedName("dndata")
+	@JsonSetter("dndata")
 	private String dnData;
 
 	public String getServerInfo() {

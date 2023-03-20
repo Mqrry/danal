@@ -1,4 +1,4 @@
-package com.ksk;
+package com.ksk.danal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
