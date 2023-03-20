@@ -159,13 +159,26 @@ public final class Danal {
 				HttpRequest.newBuilder(uri("https://wauth.teledit.com/Danal/WebAuth/Web/api/AJAXDeliver.php"))
 					.header("Content-Type", MIME_TYPE_URLENCODED)
 					.POST(BodyPublishers.ofString(
-						new URLEncoded(to("ServerInfo", this.startData.getServerInfo()), to("TID", this.tid),
-							to("carrier", this.carrier), to("agelimit", "0"), to("mvnocarrier", "mvnocarrier"),
-							to("name", this.name), to("phone", this.phone.replaceAll("-", "")), to("iden", iden),
-							to("captcha", solution), to("termagree", "Y"), to("notiagree", "N"),
-							to("isApp", isPassVerification ? "Y" : "N"), to("Device", "Mobile"),
-							to("ReferURL", "https://www.danalpay.com/"), to("hashcode", this.daptchaHashCode),
-							to("UseDSK", "N"), to("secure_enc_keyboard", ""), to("isSaveInfo", "N")).build()))
+						new URLEncoded(
+							to("ServerInfo", this.startData.getServerInfo()),
+							to("TID", this.tid),
+							to("carrier", this.carrier),
+							to("agelimit", "0"),
+							to("mvnocarrier", "mvnocarrier"),
+							to("name", this.name),
+							to("phone", this.phone.replaceAll("-", "")),
+							to("iden", iden),
+							to("captcha", solution),
+							to("termagree", "Y"),
+							to("notiagree", "N"),
+							to("isApp", isPassVerification ? "Y" : "N"),
+							to("Device", "Mobile"),
+							to("ReferURL", "https://www.danalpay.com/"),
+							to("hashcode", this.daptchaHashCode),
+							to("UseDSK", "N"),
+							to("secure_enc_keyboard", ""),
+							to("isSaveInfo", "N")
+						).build()))
 					.build());
 			var tree = mapper.readTree(verificationRequest.body());
 			String returnCode = tree.get("RETURNCODE").asText();
@@ -219,6 +232,27 @@ public final class Danal {
 				.replace("session=", "")
 				.split(";")[0];
 			return new DaptchaStatus(true, "");
+		} catch (Exception e) {
+			return new DaptchaStatus(false, e.getMessage());
+		}
+	}
+
+	public DaptchaStatus isVerified() {
+		try {
+			var transactionList = send(HttpRequest.newBuilder(uri("https://www.danalpay.com/customer_support/api/search_transaction_list"))
+					.header("Content-Type", MIME_TYPE_URLENCODED)
+					.header("Cookie", "session=" + sessionId)
+					.POST(
+						BodyPublishers.ofString(
+							new URLEncoded(
+								to("TYPE", "mobile"),
+								to("MOBILE", phone.replace("-", "")),
+								to("START_YYMM", ""),
+								to("END_YYMM", "")
+							).build()
+						)
+					).build());
+			return new DaptchaStatus(transactionList.statusCode() == 200, transactionList.body()); // TODO: change this to json.
 		} catch (Exception e) {
 			return new DaptchaStatus(false, e.getMessage());
 		}
