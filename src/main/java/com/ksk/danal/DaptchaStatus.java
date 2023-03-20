@@ -1,6 +1,6 @@
 package com.ksk.danal;
 
-public class DaptchaStatus {
+public final class DaptchaStatus {
     private final boolean success;
     private final String data;
 

@@ -1,9 +1,8 @@
 package com.ksk.danal;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class StartData {
+public final class StartData {
 	@JsonSetter("serverinfo")
 	private String serverInfo;
 	@JsonSetter("dndata")

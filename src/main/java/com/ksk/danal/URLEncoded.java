@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class URLEncoded {
+public final class URLEncoded {
     private final Map<String, String> pair = new LinkedHashMap<>();
 
     @SafeVarargs
