@@ -1,15 +1,28 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 
 sourceCompatibility = targetCompatibility = 11
 
 group 'com.ksk'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.github.Mqrry'
+            artifactId = 'danal'
+            version = '1.0'
+
+            from components.java
+        }
+    }
 }
 
 dependencies {
