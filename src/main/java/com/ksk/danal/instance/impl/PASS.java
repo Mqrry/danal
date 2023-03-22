@@ -1,13 +1,8 @@
-package com.ksk.danal.impl;
+package com.ksk.danal.instance.impl;
 
 import com.ksk.danal.Carrier;
 import com.ksk.danal.DaptchaStatus;
-import com.ksk.danal.IDanal;
-import com.ksk.danal.URLEncoded;
-
-import java.net.http.HttpRequest;
-
-import static com.ksk.danal.Pair.to;
+import com.ksk.danal.instance.IDanal;
 
 public class PASS extends IDanal {
     public PASS(String name, String phone, Carrier carrier) {
@@ -15,14 +10,13 @@ public class PASS extends IDanal {
     }
 
     @Override
-    public DaptchaStatus requestVerification(String solution, String iden) {
-        return requestVerification(solution, iden, true);
+    public DaptchaStatus requestVerification(String solution) {
+        return requestVerification(solution, "", true);
     }
 
     public DaptchaStatus finishVerification() {
         try {
-            URLEncoded encoded = new URLEncoded(to("TID", this.tid));
-            return this._finishVerification(encoded);
+            return this._finishVerification(true, "");
         } catch (Exception e) {
             e.printStackTrace();
             return new DaptchaStatus(false, e.getMessage());

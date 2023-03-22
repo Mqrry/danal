@@ -13,6 +13,9 @@ public final class URLEncoded {
         for (Pair<String, String> p : pairs)
             pair.put(p.getFirst(), p.getSecond());
     }
+    public void add(Pair<String, String> p) {
+        pair.put(p.getFirst(), p.getSecond());
+    }
 
     public String build() {
         StringBuilder sb = new StringBuilder();
